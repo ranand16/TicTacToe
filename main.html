@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TicTacToe</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div id="board">
+        <div id="0" class="square"></div>
+        <div id="1" class="square"></div>
+        <div id="2" class="square"></div>
+        <div id="3" class="square"></div>
+        <div id="4" class="square"></div>
+        <div id="5" class="square"></div>
+        <div id="6" class="square"></div>
+        <div id="7" class="square"></div>
+        <div id="8" class="square"></div>
+
+    </div>
+
+</body>
+<script src="us.js"></script>
+<script type="text/javascript">
+    var gameState = {
+        player_one : "X",
+        player_two : "O",
+        current_turn: "X",
+        board: [
+            "","","","","","","","",""
+        ]
+    }
+    var boardNum = 0;
+    var player_one_status=[];
+    var player_two_status=[];
+
+    var winningCombinations = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+    document.getElementById("board").addEventListener("click", function( e ) {
+        if(e.target.innerHTML==''){
+
+            if( gameState.current_turn == gameState.player_one){
+                e.target.innerHTML = gameState.player_two;
+                gameState.current_turn = gameState.player_two;
+                gameState.board[e.target.id] = gameState.player_two;
+                boardNum++;
+                <!--console.log(e.target.id); -->
+                <!--console.log(gameState); -->
+
+            }else{
+                e.target.innerHTML = gameState.player_one;
+                gameState.current_turn = gameState.player_one;
+                gameState.board[e.target.id] = gameState.player_one;
+                boardNum++;
+                <!-- console.log(e.target.id); -->
+                <!-- console.log(gameState); -->
+            }
+        }
+                <!-- console.log(player_one_status); -->
+                <!-- if(player_one_status.length >= 3 || player_two_status.length >= 3){ -->
+        for(var i=0 ; i<9 ; i++){
+            if(gameState.board[i] == gameState.player_one){
+                player_one_status.push(i);
+            }
+            else if(gameState.board[i] == gameState.player_two){
+                player_two_status.push(i);
+            }
+        }
+        for(var j=0 ; j<8 ;j++){
+          var temp = winningCombinations[j];
+          var result1 = (temp.length === _.intersection(temp, player_one_status).length);
+          var result2 = (temp.length === _.intersection(temp, player_two_status).length);
+
+          if(result1== true){
+              console.log('Player1 is the winner');
+              alert("Player 1 Wins");
+              break;
+          }else if(result2==true){
+              console.log('player2 is the winner');
+              alert("Player 2 Wins");
+              break;
+          }else{
+            if(boardNum == 9)
+              alert("match DRAW");
+          }
+        }
+    });
+
+</script>
+</html>
